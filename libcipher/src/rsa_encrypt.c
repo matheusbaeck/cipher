@@ -8,7 +8,7 @@ t_rsa	*rsa_new(unsigned long long content)
 	if (!node)
 		return (0);
 	node->num = content;
-	node->str = NULL;
+	node->c	= 'a';
 	node->next = NULL;
 	return (node);
 }

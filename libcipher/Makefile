@@ -9,7 +9,7 @@ OBJ_DIR = .obj
 SRCS = $(wildcard $(SRC_DIR)/*.c)
 OBJS = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRCS))
 
-TARGET = libcipher.a
+TARGET = ./.lib/libcipher.a
 
 DEPS = ../libftmath/.lib/libftmath.a
 
@@ -24,11 +24,17 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 $(OBJ_DIR):
 	mkdir -p $@
 
-recompile_libftmath:
-		$(MAKE) -C ../libftmath
+$(DEPS):
+	$(MAKE) -C ../libftmath
 
 clean:
-	rm -rf $(OBJ_DIR) $(TARGET)
+	rm -rf $(OBJ_DIR)
+
+fclean: clean
+	rm -rf $(TARGET)
+
+re:fclean all
+	
 
 .PHONY: all clean recompile_libftmath
 

@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
-LDFLAGS = -L./libcipher -L./libftmath/.lib
+LDFLAGS = -L./libcipher/.lib -L./libftmath/.lib
 LIBS = -lcipher -lftmath
 
 SRC_DIR = src
@@ -11,24 +11,38 @@ OBJS = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRCS))
 
 TARGET = rsa
 
-DEPS = libftmath/.lib/libftmath.a  # Update the path
+DEPS = libftmath/.lib/libftmath.a libcipher/.lib/libcipher.a
 
 all: $(TARGET)
 
 $(TARGET): $(OBJS) $(DEPS)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS) $(LIBS)
-	
+
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJ_DIR):
 	mkdir -p $@
 
-recompile_libftmath:
+re_libftmath:
 	$(MAKE) -C libftmath
 
-clean:
-	rm -rf $(OBJ_DIR) $(TARGET)
+re_libcipher:
+	$(MAKE) -C libcipher
 
-.PHONY: all clean recompile_libftmath
+clean:
+	rm -rf $(OBJ_DIR)
+
+fclean: clean
+	rm -rf $(TARGET)
+
+ffclean: fclean
+	@make fclean -C libftmath
+	@make fclean -C libcipher
 	
+re: fclean all
+
+re_all: ffclean re_libftmath re_libcipher all
+
+.PHONY: all clean fclean re_libftmath re_libcipher re
+

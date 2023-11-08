@@ -1,4 +1,7 @@
-.obj/*
-.lib/*
-libftmath/.obj/*
-libftmath/.lib/*
+.git
+.gitignore
+libcipher/.obj
+libcipher/.lib
+libftmath/.obj
+libftmath/.lib
+.obj
