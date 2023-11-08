@@ -19,7 +19,7 @@ for test_case in test_cases:
     test_source = f"""
 #include <stdio.h>
 #include <math.h>
-#include "../src/libftmath.h"
+#include "../src/ftmath.h"
 
 int main() {{
     long long unsigned int n = {n};
