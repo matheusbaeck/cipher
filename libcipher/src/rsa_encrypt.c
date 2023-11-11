@@ -1,4 +1,6 @@
 #include "cipher.h"
+#include <stdio.h>
+#include <math.h>
 
 t_rsa	*rsa_new(unsigned long long content)
 {
@@ -8,7 +10,7 @@ t_rsa	*rsa_new(unsigned long long content)
 	if (!node)
 		return (0);
 	node->num = content;
-	node->c	= 'a';
+	node->c	= '\0';
 	node->next = NULL;
 	return (node);
 }
@@ -44,8 +46,15 @@ void	rsa_encrypt(char **message, t_rsa_key pub_key, t_rsa *dest)
 
 	while (**message)
 	{
+		printf("%c, %llu", **message, (unsigned long long)**message);
 		num = **message;
-		num = ft_mod(ft_pow(num, pub_key.p), pub_key.q);
+		printf("(%llu ^ %llu) %llu = ", num, pub_key.p, pub_key.q);
+		//num = ft_mod(ft_pow(num, pub_key.p), pub_key.q);
+		num = ft_pow(num, pub_key.p) % pub_key.q;
+		printf("%llu ->", num);
+		dest->num = num;
+		printf("%llu", dest->num);
+		printf("\n");
 		rsa_add_back(&dest, rsa_new(num));
 		(*message)++;
 	}
